@@ -10,6 +10,7 @@
   "author": "Kareemah Ajimobi, Rasheedah Imam, Sherif Okunade",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "dotnet": "^1.1.4",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
