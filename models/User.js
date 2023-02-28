@@ -1,23 +1,18 @@
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+     required: [true, 'name must be provided'],
   },
   email: {
     type: String,
-    required: true,
+     required: [true, 'email must be provided'],
     unique: true,
   },
   password: {
     type: String,
-    required: true,
+     required: [true, 'password must be provided'],
   },
-  books: [{
-    title: String,
-    author: String,
-    publishedDate: Date,
-    // You can add more properties to the book schema as needed
-  }]
+  books: [{}]
 });
 
 module.exports = mongoose.model('User', userSchema);
