@@ -1,1 +1,1 @@
-const books = [];
+const books = [{}, {}, {}];
