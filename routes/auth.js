@@ -1,24 +1,11 @@
-const jwt = require('jsonwebtoken');
 
-const authMiddleware = (req, res, next) => {
-  // Get the token from the request headers
-  const token = req.headers['authorization'];
+const express = require('express');
+const router = express.Router();
+const userController = require('../controllers/user');
+const loginController = require('../controllers/login');
 
-  // Check if token exists
-  if (!token) {
-    return res.status(401).send({ message: 'Authentication token is missing' });
-  }
+router.post('/register', userController.registerUser);
+router.post('/login', loginController);
 
-  // Verify the token
-  try {
-    const decoded = jwt.verify(token, 'your-secret-key');
+module.exports = router;
 
-    // Add the decoded user object to the request object
-    req.user = decoded.user;
-    next();
-  } catch (err) {
-    return res.status(401).json({ message: 'Invalid authentication token' });
-  }
-};
-
-module.exports = authMiddleware;
