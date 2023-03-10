@@ -1,19 +1,33 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require("dotenv").config();
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'name must be provided'],
+    required: [true, "name must be provided"],
   },
   email: {
     type: String,
-    required: [true, 'email must be provided'],
+    required: [true, "email must be provided"],
     unique: true,
   },
   password: {
     type: String,
-    required: [true, 'password must be provided'],
+    required: [true, "password must be provided"],
+  },
+  created: {
+    type: String,
+    default: new Date().toISOString(),
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
   },
   books: [{}],
 });
