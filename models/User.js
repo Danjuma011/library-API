@@ -35,9 +35,9 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.createJWT = function () {
   return jwt.sign(
     { userId: this._id, name: this.name },
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET || 'justtestinanditsnotreal',
     {
-      expiresIn: process.env.JWT_LIFETIME,
+      expiresIn: process.env.JWT_LIFETIME || '200',
     }
   );
 };

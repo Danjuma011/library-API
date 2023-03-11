@@ -1,4 +1,4 @@
-const otpGenerator = requie("otp-generator");
+const otpGenerator = require("otp-generator");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
@@ -11,11 +11,9 @@ const generateOtp = () => {
 };
 
 // Send the verification code to the user's email
-const sendEMail = async (email) => {
-  let OTP = generateOtp();
+const sendEMail = async (email,OTP) => {
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
+    service: 'yahoo', 
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASSWORD,
@@ -23,7 +21,7 @@ const sendEMail = async (email) => {
   });
 
   const mailOptions = {
-    from: process.env.EMAIL,
+    from: process.env.EMAIL ,
     to: email,
     subject: "Email Verification Code",
     text: `Your verification code is: ${OTP}`,
@@ -32,4 +30,4 @@ const sendEMail = async (email) => {
   return info;
 };
 
-module.exports = sendEMail;
+module.exports = {sendEMail,generateOtp};

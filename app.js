@@ -2,11 +2,13 @@
 const mongoose = require('mongoose')
 const express = require('express');
 const app = express();
-const routes = require('./routes/auth');
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
-app.use('/api', routes);
+app.use('/api', authRoutes);
+app.use('/user', userRoutes);
 
 mongoose.connect("mongodb+srv://rasheedah:rasheedah@cluster0.pw3swto.mongodb.net/?retryWrites=true&w=majority")
   .then(()=>console.log('connected to mongoDb')).then(() => {
