@@ -7,44 +7,23 @@ const BookSchema = new mongoose.Schema({
   },
   author: {
     type: String,
-    required: [true, 'author of book must be provided'],
+    default: 'not available',
   },
   genre: {
     type: String,
-    required: [true, 'genre of book must be provided'],
-    enum: [
-      'fiction',
-      'philosophy',
-      'non-fiction',
-      'economics',
-      'history',
-      'science',
-    ],
+    default: 'not available',
   },
-  publisherName: {
+  subGenre: {
     type: String,
-    required: [true, 'publisher name must be provided'],
+    default: 'not available',
   },
-  publishedDate: {
-    type: Number,
-    required: [true, 'year of publication must be provided'],
-  },
-  rating: {
-    type: Number,
-    default: 4.5,
-  },
-  review: {
+  height: {
     type: String,
-    minlength: 10,
-    maxlength: 50,
+    default: 'not available',
   },
-  price: {
-    type: Number,
-    required: [true, 'book price must be provided'],
-  },
-  isbn: {
-    type: Number,
-    required: [true, 'isbn must be provided'],
+  publisher: {
+    type: String,
+    default: 'not available',
   },
 });
 
