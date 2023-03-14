@@ -9,7 +9,7 @@ const authMiddleware = require('./middleware/auth')
 const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
-app.use('/api', authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/user',authMiddleware, userRoutes);
 app.use('/api/books',authMiddleware, booksRoute);
 
