@@ -1,18 +1,19 @@
-// require('dotenv').config();
+require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const booksRoute = require('./routes/books');
+const authMiddleware = require('./middleware/auth')
 const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
 app.use('/api', authRoutes);
-app.use('/user', userRoutes);
-app.use('/api/books', booksRoute);
+app.use('/api/user',authMiddleware, userRoutes);
+app.use('/api/books',authMiddleware, booksRoute);
 
-mongoose.connect("mongodb+srv://rasheedah:rasheedah@cluster0.pw3swto.mongodb.net/?retryWrites=true&w=majority")
+mongoose.connect(process.env.DBSTRING)
   .then(()=>console.log('connected to mongoDb')).then(() => {
   app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

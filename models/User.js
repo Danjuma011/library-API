@@ -34,10 +34,10 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.createJWT = function () {
   return jwt.sign(
-    { userId: this._id, name: this.name },
-    process.env.JWT_SECRET || 'justtestinanditsnotreal',
+    { userId: this._id},
+    process.env.JWT_SECRET,
     {
-      expiresIn: process.env.JWT_LIFETIME || '200',
+      expiresIn: '200h',
     }
   );
 };

@@ -2,23 +2,15 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const authMiddleware = (req, res, next) => {
-  // Get the token from the request headers
-  const token = req.headers['authorization'];
-
-  // Check if token exists
-  if (!token) {
-    return res.status(401).send({ message: 'Authentication token is missing' });
-  }
-
-  // Verify the token
   try {
-    const decoded = jwt.verify(token, 'your-secret-key');
-
-    // Add the decoded user object to the request object
-    req.user = decoded.user;
+    const token = req.headers.authorization.split(' ')[1];
+    console.log(req.headers.authorization)
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    req.userData = { userId: decodedToken.userId };
     next();
-  } catch (err) {
-    return res.status(401).json({ message: 'Invalid authentication token' });
+  } catch (error) {
+    console.error(error);
+    res.status(401).send({ message: 'Authentication failed', Error: error });
   }
 };
 
