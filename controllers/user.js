@@ -7,10 +7,10 @@ const deleteUser = async (req, res) => {
   if (!userId) return res.status(404).send("not found");
 
   const admin = await checkAdmin(req,res);
-  if (!admin || !admin.isAdmin)
+  if (!admin)
     return res
-      .status(401)
-      .send({ message: "Unauthorized", error: "only admin can delete" });
+      .status(403)
+      .send({ message: "Forbidden"});
 
   try {
     await User.findByIdAndDelete(userId);
@@ -23,9 +23,12 @@ const deleteUser = async (req, res) => {
 
 
 const getAllUser = async (req, res) => {
-   const admin = await checkAdmin(req,res);
-  if (!admin || !admin.isAdmin)
-    return res.status(401).send({ message: "Unauthorized" });
+  const admin = await checkAdmin(req, res);
+  if (!admin)
+    return res
+      .status(403)
+      .send({ message: "Forbidden" });
+
   try {
     const users = await User.find();
     res.send(users);

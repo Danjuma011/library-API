@@ -9,7 +9,7 @@ const checkAdmin = async (req, res) => {
   const adminId = decodedToken.userId;
   if (!adminId) return res.status(404).send("not found");
   const admin = await User.findOne({ _id: adminId });
-  return admin;
+  return admin.isAdmin;
 };
 
 module.exports = checkAdmin;
