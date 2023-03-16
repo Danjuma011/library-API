@@ -1,21 +1,21 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-require("dotenv").config();
+require('dotenv').config();
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "name must be provided"],
+    required: [true, 'name must be provided'],
   },
   email: {
     type: String,
-    required: [true, "email must be provided"],
+    required: [true, 'email must be provided'],
     unique: true,
   },
   password: {
     type: String,
-    required: [true, "password must be provided"],
+    required: [true, 'password must be provided'],
   },
   created: {
     type: String,
@@ -33,16 +33,13 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.createJWT = function () {
-  return jwt.sign(
-    { userId: this._id},
-    process.env.JWT_SECRET,
-    {
-      expiresIn: '200h',
-    }
-  );
+  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
+    expiresIn: '200h',
+  });
 };
 
 userSchema.methods.comparePassword = async function (password) {
+  if (!this.isModified('password')) return;
   const isMatch = await bcrypt.compare(password, this.password);
   return isMatch;
 };

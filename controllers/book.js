@@ -1,5 +1,5 @@
 const Book = require('../models/Book');
-const checkAdmin = require('../utils/checkAdmin')
+const checkAdmin = require('../utils/checkAdmin');
 
 const getBooks = async (req, res) => {
   try {
@@ -12,22 +12,24 @@ const getBooks = async (req, res) => {
 
 const createBook = async (req, res) => {
   const admin = await checkAdmin(req, res);
-  if (!admin) return res.status(403).send({ message: 'Forbidden' })
+  if (!admin) return res.status(403).send({ message: 'Forbidden' });
 
   if (!req.body.title) {
-    return res.status(400).send({message: `cannot create book with no title`})
+    return res
+      .status(400)
+      .send({ message: `cannot create book with no title` });
   }
   try {
     const newBook = new Book({
       title: req.body.title,
-      author: req.body.author ,
-      genre: req.body.genre ,
-      subGenre: req.body.subGenre ,
-      height: req.body.height ,
-      publisher: req.body.publisher ,
+      author: req.body.author,
+      genre: req.body.genre,
+      subGenre: req.body.subGenre,
+      height: req.body.height,
+      publisher: req.body.publisher,
     });
     const savedBook = await newBook.save();
-    res.status(201).send({message: `created new book ${savedBook}`});
+    res.status(201).send({ message: `created new book ${savedBook}` });
   } catch (err) {
     res.status(400).send({ message: err.message });
   }
@@ -35,7 +37,7 @@ const createBook = async (req, res) => {
 
 const updateBook = async (req, res) => {
   const admin = await checkAdmin(req, res);
-  if (!admin) return res.status(403).send({ message: 'Forbidden' })
+  if (!admin) return res.status(403).send({ message: 'Forbidden' });
   try {
     const book = await Book.findById(req.params.id);
     if (!book) {
@@ -56,6 +58,20 @@ const updateBook = async (req, res) => {
     console.error(err);
     res.status(500).send({ message: 'Server error' });
   }
-}
+};
 
-module.exports = { getBooks, createBook, updateBook };
+const deleteBook = async (req, res) => {
+  const admin = await checkAdmin(req, res);
+  if (!admin) return res.status(403).send({ message: 'Forbidden' });
+
+  try {
+    const book = await Book.findByIdAndDelete({ _id: req.params.id });
+    if (!book) {
+      res.status(404).send({ message: `No job with id ${req.params.id}` });
+    }
+    res.status(200).send({ book });
+  } catch (error) {
+    res.status(500).send({ message: 'Server error' });
+  }
+};
+module.exports = { getBooks, createBook, updateBook, deleteBook };
