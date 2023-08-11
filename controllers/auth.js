@@ -38,6 +38,7 @@ const registerUser = async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
+      isAdmin: req.body.isAdmin
     }).save();
 
     res.status(200).send('An OTP was sent to your account, please verify');
